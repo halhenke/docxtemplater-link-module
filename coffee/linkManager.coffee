@@ -76,7 +76,7 @@ module.exports = class LinkManager
     newTag.setAttribute('Id',"rId#{@maxRid}")
     newTag.setAttribute('Type','http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink')
     # newTag.setAttribute('Target',"media/#{realImageName}")
-    newTag.setAttribute('Target',"linkData")
+    newTag.setAttribute('Target', linkData)
     newTag.setAttribute('TargetMode',"External")
     relationships.appendChild newTag
     @setLink("word/_rels/#{@endFileName}.xml.rels",DocUtils.encode_utf8 DocUtils.xml2Str @xmlDoc)
