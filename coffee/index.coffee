@@ -41,11 +41,15 @@ class LinkModule
       # tag = templaterState.textInsideTag
       debugger
       linkObject = scopeManager.getValueFromScope(tag)
-      link_data = linkObject.link
-      link_display = linkObject.text
+      if typeof(linkObject) is "object"
+        link_data = linkObject.link
+        link_display = linkObject.text
+      else if typeof(linkObject) is "string"
+        link_data = link_display = linkObject
+      else
+        return @replaceBy('<w:t></w:t>','w:t')
+      # if link_data=='undefined' then return @replaceBy('<w:t></w:t>','w:t')
       console.log "links: #{link_data} #{link_display}"
-
-      if link_data=='undefined' then return @replaceBy('<w:t></w:t>','w:t')
 
       rId=@linkManager
         .loadLinkRels()
