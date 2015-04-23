@@ -1,22 +1,25 @@
 gulp = require("gulp")
 watch = require("gulp-watch")
 mocha = require("gulp-mocha")
+webpack = require("gulp-webpack")
 coffee = require("gulp-coffee")
 uglify = require("gulp-uglify")
 config = uglify: false
 paths =
   coffee: [
-    "coffee/subContent.coffee"
-    "coffee/docxQrCode.coffee"
-    "coffee/xmlUtil.coffee"
     "coffee/docUtils.coffee"
-    "coffee/imgManager.coffee"
-    "coffee/imgReplacer.coffee"
+    "coffee/linkManager.coffee"
     "coffee/index.coffee"
   ]
-  coffeeTest: ["coffee/test.coffee"]
+  coffeeTest: [
+    "coffee/test.coffee"
+    "coffee/fixtures/**.coffee"
+  ]
   testDirectory: __dirname + "/test"
   js: "js/"
+  webpack:
+    entry: "./webpack.entry.js"
+    config: "./webpack.config.js"
 
 gulp.task "allCoffee", ->
   gulp.src(paths.coffee)
@@ -30,13 +33,19 @@ gulp.task "allCoffee", ->
 gulp.task "watch", ->
   gulp.src(paths.coffee)
     .pipe watch((files) ->
-      f = files.pipe(coffee(bare: true)).pipe(gulp.dest(paths.js))
+      f = files
+        .pipe(coffee(bare: true))
+        .pipe(gulp.dest(paths.js))
       f )
   gulp.watch paths.coffeeTest, ["mocha"]
 
+gulp.task "webpack", ->
+  return gulp.src(paths.webpack.entry)
+    .pipe(webpack(require(paths.webpack.config)))
+    .pipe gulp.dest("test")
 
 gulp.task "mocha", ->
-  gulp.src("./coffee/test.coffee",
+  return gulp.src("./coffee/test.coffee",
     read: false
     ui: "bdd"
     reporter: "doc"

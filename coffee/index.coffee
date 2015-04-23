@@ -39,7 +39,6 @@ class LinkModule
 
       tag = templaterState.textInsideTag.substr(1).trim()
       # tag = templaterState.textInsideTag
-      debugger
       linkObject = scopeManager.getValueFromScope(tag)
       if typeof(linkObject) is "object"
         link_data = linkObject.link
@@ -48,6 +47,9 @@ class LinkModule
         link_data = link_display = linkObject
       else
         return @replaceBy('<w:t></w:t>','w:t')
+      # Add "mail_to:" for email links
+      if link_data.match /@/
+        link_data = "mailto:#{link_data}"
       # if link_data=='undefined' then return @replaceBy('<w:t></w:t>','w:t')
       console.log "links: #{link_data} #{link_display}"
 
@@ -55,6 +57,9 @@ class LinkModule
         .loadLinkRels()
         .addLinkRels(link_data)
 
+      # NOTE: We can only deal with links surrounded by <w:p></w:p>
+      # - i.e. on a newline by itself
+      # because this is hardcoded here
       outsideElement='w:p'
       newText=@getLinkXml(rId,link_display)
       @replaceBy(newText,outsideElement)

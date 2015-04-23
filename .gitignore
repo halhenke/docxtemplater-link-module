@@ -3,3 +3,5 @@ test/
 js/
 node_modules
 .git.old
+tags
+examples/unzipped
