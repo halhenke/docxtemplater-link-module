@@ -1,4 +1,4 @@
-DocUtils=require('./docUtils')
+DocUtils=require('./docUtils.coffee')
 
 module.exports = class LinkManager
   constructor:(@zip,@fileName)->
