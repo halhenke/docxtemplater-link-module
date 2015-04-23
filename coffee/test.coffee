@@ -15,13 +15,10 @@ fileNames=[
 
 # LinkModule=require('../js/index.js')
 LinkModule=require('./index.coffee')
-
 docX={}
 
 # -------------------------------------------------
-# VARS
-
-
+# UTILITIES
 # -------------------------------------------------
 
 loadFile=(name)->
@@ -32,6 +29,7 @@ loadFile=(name)->
     xhrDoc.overrideMimeType('text/plain; charset=x-user-defined')
   xhrDoc.send()
   xhrDoc.response
+# -------------------------------------------------
 
 describe 'link adding with {! link } syntax', ()->
   beforeEach (done) ->
@@ -48,7 +46,7 @@ describe 'link adding with {! link } syntax', ()->
         link: 'http://gotojail.com'
       name='linkExample.docx'
       templateResult = fixtures.linkExample
-      linkModule=new LinkModule({centered:false})
+      linkModule=new LinkModule()
       docX[name].attachModule(linkModule)
       out=docX[name]
         .load(docX[name].loadedContent)
@@ -75,7 +73,7 @@ describe 'link adding with {! link } syntax', ()->
       sampleLink = 'http://gotojail.com'
       name='linkExample.docx'
       templateResult = fixtures.linkExample
-      linkModule=new LinkModule({centered:false})
+      linkModule=new LinkModule()
       docX[name].attachModule(linkModule)
       out=docX[name]
         .load(docX[name].loadedContent)
@@ -104,7 +102,7 @@ describe 'link adding with {! link } syntax', ()->
         link: 'stevejobs@apple.com'
       name='linkExample.docx'
       templateResult = fixtures.linkExample
-      linkModule=new LinkModule({centered:false})
+      linkModule=new LinkModule()
       docX[name].attachModule(linkModule)
       out=docX[name]
         .load(docX[name].loadedContent)
@@ -130,7 +128,7 @@ describe 'link adding with {! link } syntax', ()->
       sampleLink = 'stevejobs@apple.com'
       name='linkExample.docx'
       templateResult = fixtures.linkExample
-      linkModule=new LinkModule({centered:false})
+      linkModule=new LinkModule()
       docX[name].attachModule(linkModule)
       out=docX[name]
         .load(docX[name].loadedContent)
@@ -168,11 +166,10 @@ describe 'link adding with {! link } syntax', ()->
           ]
         name='hasLinksExample.docx'
         templateResult = fixtures.hasLinksExample
-        linkModule=new LinkModule({centered:false})
+        linkModule=new LinkModule()
         docX[name].attachModule(linkModule)
         out=docX[name]
           .load(docX[name].loadedContent)
-          # .setData(link: sampleLink)
           .setData(sampleData)
           .render()
 
@@ -208,17 +205,15 @@ describe 'link adding with {! link } syntax', ()->
           ]
         name='linkLoopExample.docx'
         templateResult = fixtures.linkLoopExample
-        linkModule=new LinkModule({centered:false})
+        linkModule=new LinkModule()
         docX[name].attachModule(linkModule)
         out=docX[name]
           .load(docX[name].loadedContent)
-          # .setData(link: sampleLink)
           .setData(sampleData)
           .render()
 
         zip=out.getZip()
 
-        # console.log "Here we have #{sampleLink.link} #{sampleLink.text}"
         relsFile=zip.files['word/_rels/document.xml.rels']
         expect(relsFile?).to.equal(true)
         relsFileContent=relsFile.asText()
@@ -235,7 +230,6 @@ describe 'link adding with {! link } syntax', ()->
         done()
 
 
-
   # We cant do this because - like docxtemplater-image-module
   # the link "needs to be in its own <w:p>, so that means that
   # you have to put a new line after and before the tag."
@@ -247,14 +241,13 @@ describe 'link adding with {! link } syntax', ()->
           link: 'http://gotojail.com'
         name='inlineLinkExample.docx'
         templateResult = fixtures.inlineLinkExample
-        linkModule=new LinkModule({centered:false})
+        linkModule=new LinkModule()
 
         # ----------
         # r2d2 = docX[name].getZip().files['word/document.xml'].asText()
         # r2d2 = docX[name].load(docX[name].loadedContent).render().getZip().files['word/document.xml'].asText()
         # console.log "r2d2 is #{r2d2}"
         # ----------
-
 
         docX[name].attachModule(linkModule)
         out=docX[name]
@@ -265,13 +258,10 @@ describe 'link adding with {! link } syntax', ()->
 
         zip=out.getZip()
 
-
-        # console.log "Here we have #{sampleLink.link} #{sampleLink.text}"
         relsFile=zip.files['word/_rels/document.xml.rels']
         expect(relsFile?).to.equal(true)
         relsFileContent=relsFile.asText()
-        # console.log "relsFileContent is #{relsFileContent}"
-        # expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", sampleLink.link))
+        expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", sampleLink.link))
 
         documentFile=zip.files['word/document.xml']
         expect(documentFile?).to.equal(true)

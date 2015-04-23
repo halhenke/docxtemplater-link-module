@@ -10,7 +10,6 @@ module.exports = class LinkManager
 
   loadLinkRels: () ->
     console.log "loadLinkRels called..."
-    debugger
     file=@zip.files["word/_rels/#{@endFileName}.xml.rels"]
     if file==undefined then return
     content= DocUtils.decode_utf8 file.asText()
