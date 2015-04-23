@@ -7,12 +7,8 @@ uglify = require("gulp-uglify")
 config = uglify: false
 paths =
   coffee: [
-    "coffee/subContent.coffee"
-    "coffee/docxQrCode.coffee"
-    "coffee/xmlUtil.coffee"
     "coffee/docUtils.coffee"
-    "coffee/imgManager.coffee"
-    "coffee/imgReplacer.coffee"
+    "coffee/linkManager.coffee"
     "coffee/index.coffee"
   ]
   coffeeTest: [
