@@ -57,6 +57,9 @@ class LinkModule
         .loadLinkRels()
         .addLinkRels(link_data)
 
+      # NOTE: We can only deal with links surrounded by <w:p></w:p>
+      # - i.e. on a newline by itself
+      # because this is hardcoded here
       outsideElement='w:p'
       newText=@getLinkXml(rId,link_display)
       @replaceBy(newText,outsideElement)
