@@ -114,7 +114,7 @@ describe 'link adding with {! link } syntax', ()->
       relsFile=zip.files['word/_rels/document.xml.rels']
       expect(relsFile?).to.equal(true)
       relsFileContent=relsFile.asText()
-      expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", sampleLink.link))
+      expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", "mailto:#{sampleLink.link}"))
 
       documentFile=zip.files['word/document.xml']
       expect(documentFile?).to.equal(true)
@@ -140,7 +140,7 @@ describe 'link adding with {! link } syntax', ()->
       relsFile=zip.files['word/_rels/document.xml.rels']
       expect(relsFile?).to.equal(true)
       relsFileContent=relsFile.asText()
-      expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", sampleLink))
+      expect(relsFileContent).to.equal(templateResult.rels.replace("__linkData__", "mailto:#{sampleLink}"))
 
       documentFile=zip.files['word/document.xml']
       expect(documentFile?).to.equal(true)
